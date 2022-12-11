@@ -1,0 +1,35 @@
+{
+	"name": "app-pelicula",
+	"version": "1.0.0",
+	"description": "Aplicativo web para trailers de películas",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js",
+		"dev": "nodemon app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/FjMedina21/app-pelicula.git"
+	},
+	"keywords": [],
+	"author": "Francisco Javier Medina Matos - FjMedina21",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/FjMedina21/app-pelicula/issues"
+	},
+	"homepage": "https://github.com/FjMedina21/app-pelicula#readme",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"cloudinary": "^1.32.0",
+		"cors": "^2.8.5",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"express-fileupload": "^1.4.0",
+		"express-validator": "^6.14.2",
+		"fs-extra": "^11.1.0",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^6.8.0",
+		"uuid": "^9.0.0"
+	}
+}
