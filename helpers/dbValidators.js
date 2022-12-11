@@ -7,7 +7,7 @@ const validRole = async (role = '') => {
    const roleExist = await Role.findOne({ role })
 
    if (!roleExist) {
-      throw new Error(`${role} is an invalid role`)
+      throw new Error(` This role:${role.toUpperCase()} don't exist`)
    }
 
 }
@@ -29,7 +29,7 @@ const userExist = async (id) => {
    const userExist = await User.findById(id)
 
    if (!userExist) {
-      throw new Error(`This user id:${id} do not exist`)
+      throw new Error(`This user doesn't not exist`)
    }
 
 }
@@ -40,19 +40,19 @@ const trailerExist = async (id) => {
    const trailerExist = await Movie.findById(id)
 
    if (!trailerExist) {
-      throw new Error(`This trailer id:${id} do not exist`)
+      throw new Error(`This trailer is not registered`)
    }
 }
 
 const allowedCollections = (collection = '', collections = []) => {
 
    const included = collections.includes(collection)
+
    if (!included) {
       throw new Error(`The collection ${collection} is not allowed - valid collections: ${collections}`)
    }
 
    return true
-
 }
 
 module.exports = {

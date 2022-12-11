@@ -5,7 +5,7 @@ const { Movie } = require('../models')
 const { imgUpload, imgUpdate }=require('../helpers')
 
 const trailersGet = async (req, res = response) => {
-   const { from = 0, limit = 10 } = req.query
+   const { from = 0, limit = 25 } = req.query
    const query = { state: true }
 
    const [totalTrailers, trailers] = await Promise.all([
@@ -24,7 +24,7 @@ const trailersGet = async (req, res = response) => {
 const trailerGetById = async (req, res = response) => {
    const { id } = req.params
    const trailer = await Movie.findById(id)
-   res.json({ trailer })
+   res.json(trailer)
 }
 
 const trailerPost = async (req, res = response) => {
@@ -54,15 +54,15 @@ const trailerPost = async (req, res = response) => {
          await fs.unlink(tempFilePath)
       }
 
-      res.status(400).json({ "message": `${error.message}` })
-
+      res.status(400).json({
+         msg: error.message
+      })
    }
-
 }
 
 const trailerPut = async (req, res = response) => {
    const { id } = req.params
-   const { _id, ...schema } = req.body
+   const { ...schema } = req.body
    const newIMGPath = req.files.img.tempFilePath
 
    try {
@@ -94,7 +94,9 @@ const trailerPut = async (req, res = response) => {
       if (req.files?.img) {
          await fs.unlink(newIMGPath)
       }
-      res.status(400).json({"message": `${error.message}`})
+      res.status(400).json({
+         msg: error.message
+      })
 
    }
 }

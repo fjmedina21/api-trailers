@@ -20,7 +20,7 @@ const searchTrailers = async (term = '', res = response) => {
 
    } else if (!isMongoID) {
       const regex = new RegExp(term, 'i')
-      const filter = { $and: [{ $or: [{ title: regex }, { directors: regex }] }, { state: true }] }
+      const filter = { $and: [{ $or: [{ title: regex }, { directors: regex }, { cast: regex }] }, { state: true }] }
 
       const movies = await Movie.find(filter)
       const total = await Movie.countDocuments(filter)
@@ -37,12 +37,10 @@ const search = (req, res = response) => {
 
    const { collection, term } = req.params
 
-   if (!collectionsAllowed.includes(collection)) {
-      res.status(400).json({
-         msg: `This collection:${collection.toUpperCase()} is not allowed`,
-         collectionsAllowed: `[${collectionsAllowed}]`
-      })
-   }
+   const msg = `This search haven't been implemented yet`
+
+   if (!collectionsAllowed.includes(collection)) res.status(400).json({ msg })
+
 
    switch (collection) {
       case 'movies':
@@ -50,9 +48,7 @@ const search = (req, res = response) => {
          break
 
       default:
-         res.status(500).json({
-            msg: "'This search haven't been implemented yet"
-         })
+         res.status(500).json({ msg })
    }
 
 }

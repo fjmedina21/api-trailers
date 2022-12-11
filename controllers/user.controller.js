@@ -42,7 +42,7 @@ const userPost = async (req, res = response) => {
    } catch (error) {
 
       res.status(400).json({
-         error
+         msg:error.message
       })
 
    }
@@ -51,15 +51,16 @@ const userPost = async (req, res = response) => {
 
 const userPut = async (req, res = response) => {
    const { id } = req.params
-   const { _id, email, pass, ...schema } = req.body
+   const { pass, ...schema } = req.body
 
    const user = await User.findById(id)
    const userState = user.state
 
    if (!userState) {
-      res.status(406).json({ "error": "action not allowed" })
+      res.status(406).json({ msg: "action not allowed" })
 
    } else if (userState) {
+
       if (pass) {
          const salt = bcryptjs.genSaltSync()
          schema.pass = bcryptjs.hashSync(pass, salt)
