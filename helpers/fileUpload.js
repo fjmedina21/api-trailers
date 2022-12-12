@@ -1,10 +1,20 @@
 const cloudinary = require('cloudinary').v2
+const fs = require('fs-extra')
 
 cloudinary.config(process.env.CLOUDINARY_URL)
 
-const imgUpload = async(path) => {
+const imgUpload = async (imgFile, schema) => {
 
-   return await cloudinary.uploader.upload(path, { folder: 'app-pelicula' })
+   const { tempFilePath } = imgFile
+
+   const { public_id, secure_url } = await cloudinary.uploader.upload(tempFilePath, { folder: 'app-pelicula' })
+
+   schema.img = {
+      public_id,
+      imgURL: secure_url
+   }
+
+   await fs.unlink(tempFilePath)
 
 }
 
@@ -14,23 +24,19 @@ const imgDelete = async(public_id) => {
 
 }
 
-const imgUpdate = async (dbPublicId, newIMGPath) => {
 
-   const { result } = await imgDelete(dbPublicId)
+FIXME: "imgUpload Method - not working"
+const imgUpdate = async (imgFile, img, schema ) => {
+   const dbPublicId = img.public_id
+   const { tempFilePath } = imgFile
 
-   if (result === "ok") {
-      const { public_id, secure_url } = await imgUpload(newIMGPath)
+   const result = await imgUpload(imgFile, schema)
+   if (result) await imgDelete(dbPublicId)
 
-      return { public_id, secure_url }
-   }
-   else if (result === "not found")
-      return {err_msg:"Please provide correct public_id"}
-   else {
-      return { err_msg: "Try again later." }
-   }
+
+   await fs.unlink(tempFilePath)
 
 }
-
 
 
 module.exports = {

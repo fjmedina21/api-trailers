@@ -1,6 +1,8 @@
 const { Router } = require('express')
 const { check } = require('express-validator')
 
+const roles = ['ADMIN', 'SUPER']
+
 const {
    validateFields,
    isSuper,
@@ -42,6 +44,7 @@ router.post('/',
 router.put('/:id',
    [
       validateJWT,
+      rolesAllowed(roles), 
       check('id', 'Invalid ID').isMongoId(),
       check('id').custom(userExist),
       validateFields
