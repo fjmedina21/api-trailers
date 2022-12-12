@@ -42,7 +42,7 @@ const userPost = async (req, res = response) => {
    } catch (error) {
 
       res.status(400).json({
-         msg:error.message
+         err:error.message
       })
 
    }
