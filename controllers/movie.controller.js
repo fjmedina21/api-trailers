@@ -55,7 +55,7 @@ const trailerPost = async (req, res = response) => {
       }
 
       res.status(400).json({
-         msg: error.message
+         err: error.message
       })
    }
 }
@@ -71,7 +71,7 @@ const trailerPut = async (req, res = response) => {
 
 
       if (!state) {
-         res.status(406).json({ "error": "action not allowed" })
+         res.status(406).json({ err: "action not allowed" })
       } else if (state) {
 
          const { public_id, secure_url } = (dbPublicId)
@@ -95,7 +95,7 @@ const trailerPut = async (req, res = response) => {
          await fs.unlink(newIMGPath)
       }
       res.status(400).json({
-         msg: error.message
+         err: error.message
       })
 
    }
