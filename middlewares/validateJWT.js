@@ -38,7 +38,7 @@ const validateJWT = async (req = request, res = response, next) => {
 
    } catch (error) {
       res.status(401).json({
-         msg: error.message
+         err: error.message
       })
 
    }

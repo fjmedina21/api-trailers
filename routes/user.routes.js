@@ -6,18 +6,21 @@ const roles = ['ADMIN', 'SUPER']
 const {
    validateFields,
    isSuper,
-   validateJWT} = require('../middlewares')
+   validateJWT
+} = require('../middlewares')
 
 const {
    emailExist,
-   userExist } = require('../helpers')
+   userExist
+} = require('../helpers')
 
 const {
    usersGet,
    userGetById,
    userPost,
    userPut,
-   userDelete } = require('../controllers')
+   userDelete
+} = require('../controllers')
 
 const router = Router()
 

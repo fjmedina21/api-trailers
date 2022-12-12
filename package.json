@@ -1,7 +1,7 @@
 {
-	"name": "app-pelicula",
+	"name": "api-trailers",
 	"version": "1.0.0",
-	"description": "Aplicativo web para trailers de películas",
+	"description": "Api para cargar trailer de películas",
 	"main": "app.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
@@ -10,15 +10,15 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/FjMedina21/app-pelicula.git"
+		"url": "git+https://github.com/FjMedina21/api-trailers.git"
 	},
 	"keywords": [],
 	"author": "Francisco Javier Medina Matos - FjMedina21",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/FjMedina21/app-pelicula/issues"
+		"url": "https://github.com/FjMedina21/api-trailers/issues"
 	},
-	"homepage": "https://github.com/FjMedina21/app-pelicula#readme",
+	"homepage": "https://github.com/FjMedina21/api-trailers#readme",
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
 		"cloudinary": "^1.32.0",

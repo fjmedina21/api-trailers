@@ -13,7 +13,7 @@ const generateJWT = (uid = '', role = '') => {
 
          if (err) {
 
-            reject('Token not generated')
+            reject(err)
 
          } else {
             resolve(token)

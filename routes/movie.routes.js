@@ -16,7 +16,8 @@ const {
    trailerGetById,
    trailerPost,
    trailerPut,
-   trailerDelete } = require('../controllers')
+   trailerDelete
+} = require('../controllers')
 
 const router = Router()
 const roles = ['ADMIN', 'SUPER']
