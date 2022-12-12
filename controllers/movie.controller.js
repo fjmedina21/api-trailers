@@ -73,7 +73,9 @@ const trailerPut = async (req, res = response) => {
 
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
 
-      res.status(400).json({ error })
+      res.status(400).json({
+         err: error.message
+      })
 
    }
 }

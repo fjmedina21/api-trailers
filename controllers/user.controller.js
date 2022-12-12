@@ -89,7 +89,7 @@ const userPut = async (req, res = response) => {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
 
       res.status(400).json({
-         error
+         err: error.message
       })
    }
 

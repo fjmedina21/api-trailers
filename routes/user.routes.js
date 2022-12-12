@@ -21,10 +21,11 @@ const {
 
 const router = Router()
 
-router.get('/', usersGet)
+router.get('/', validateJWT, usersGet)
 
 router.get('/:id',
    [
+      validateJWT,
       check('id', 'Invalid id').isMongoId(),
       check('id').custom(userExist),
       validateFields
@@ -44,7 +45,7 @@ router.post('/',
 router.put('/:id',
    [
       validateJWT,
-      rolesAllowed(roles), 
+      rolesAllowed(roles),
       check('id', 'Invalid ID').isMongoId(),
       check('id').custom(userExist),
       validateFields
