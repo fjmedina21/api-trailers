@@ -6,7 +6,8 @@ const roles = ['ADMIN', 'SUPER']
 const {
    validateFields,
    isSuper,
-   validateJWT
+   validateJWT,
+   rolesAllowed
 } = require('../middlewares')
 
 const {

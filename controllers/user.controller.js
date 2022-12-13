@@ -1,9 +1,13 @@
-const { request, response } = require('express')
+const { request,response } = require('express')
 const bcryptjs = require('bcryptjs')
 const fs = require('fs-extra')
 
 const { User } = require('../models')
-const { imgUpload, imgUpdate, imgDelete } = require('../helpers')
+const {
+   imgUpload,
+   imgUpdate,
+   imgDelete
+} = require('../helpers')
 
 const usersGet = async (req, res = response) => {
    const { from = 0, limit = 5 } = req.query
@@ -29,7 +33,7 @@ const userGetById = async (req, res = response) => {
 }
 
 const userPost = async (req, res = response) => {
-   const schema = req.body
+   const {pass, ...schema} = req.body
    const imgFile = req.files?.img
 
    try {
@@ -38,22 +42,21 @@ const userPost = async (req, res = response) => {
 
       //Encriptar la contraseña
       const salt = bcryptjs.genSaltSync()
-      schema.pass = bcryptjs.hashSync(schema.pass, salt)
-
+      schema.pass = bcryptjs.hashSync(pass, salt)
 
       const user = new User(schema)
-
       await user.save()
+
       res.json(user)
 
    } catch (error) {
-
-      if (imgFile) await fs.unlink(imgFile.tempFilePath)
 
       res.status(400).json({
          err:error.message
       })
 
+   } finally {
+      if (imgFile) await fs.unlink(imgFile.tempFilePath)
    }
 
 }
@@ -67,30 +70,35 @@ const userPut = async (req, res = response) => {
       const { state, img } = await User.findById(id)
 
       if (!state) {
-         res.status(406).json({ msg: "action not allowed" })
+
+         res.status(406).json({
+            msg: "action not allowed"
+         })
 
       } else if (state) {
 
          if (pass) {
-
             const salt = bcryptjs.genSaltSync()
             schema.pass = bcryptjs.hashSync(pass, salt)
-
          }
 
          if (imgFile) await imgUpdate(imgFile, img, schema)
 
          const user = await User.findByIdAndUpdate(id, schema, { new: true })
 
-         res.json(user)
+         res.json({
+            updated: user
+         })
       }
-   } catch (error) {
 
-      if (imgFile) await fs.unlink(imgFile.tempFilePath)
+   } catch (error) {
 
       res.status(400).json({
          err: error.message
       })
+
+   } finally{
+      if (imgFile) await fs.unlink(imgFile.tempFilePath)
    }
 
 }
@@ -100,10 +108,12 @@ const userDelete = async (req = request, res = response) => {
    const { img } = await User.findById(id)
    const { public_id } = img
 
-   await imgDelete(public_id)
+   if (public_id) await imgDelete(public_id)
+   await User.findByIdAndDelete(id)
 
-   const user = await User.findByIdAndDelete(id)
-   res.json(user)
+   res.json({
+      msg: "User removed"
+   })
 }
 
 

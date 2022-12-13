@@ -2,7 +2,11 @@ const { request, response } = require('express')
 const fs = require('fs-extra')
 
 const { Movie } = require('../models')
-const { imgUpload, imgUpdate, imgDelete }=require('../helpers')
+const {
+   imgUpload,
+   imgUpdate,
+   imgDelete
+} = require('../helpers')
 
 const trailersGet = async (req, res = response) => {
    const { from = 0, limit = 25 } = req.query
@@ -36,47 +40,55 @@ const trailerPost = async (req, res = response) => {
       if (imgFile) await imgUpload(imgFile, schema)
 
       const trailer = new Movie(schema)
-
-
       await trailer.save()
+
       res.json(trailer)
 
    } catch (error) {
 
-      if (imgFile) await fs.unlink(imgFile.tempFilePath)
-
       res.status(400).json({
          err: error.message
       })
+
+   } finally{
+      if (imgFile) await fs.unlink(imgFile.tempFilePath)
    }
+
 }
 
 const trailerPut = async (req, res = response) => {
    const { id } = req.params
-   const { ...schema } = req.body
+   const schema = req.body
    const imgFile = req.files?.img
 
    try {
       const { state, img } = await Movie.findById(id)
 
       if (!state) {
-         res.status(406).json({ err: "action not allowed" })
+
+         res.status(406).json({
+            err: "action not allowed"
+         })
+
       } else if (state) {
 
          if (imgFile) await imgUpdate(imgFile, img, schema)
 
          const trailer = await Movie.findByIdAndUpdate(id, schema, {new:true})
 
-         res.json(trailer)
+         res.json({
+            upadted: trailer
+         })
       }
-   } catch (error) {
 
-      if (imgFile) await fs.unlink(imgFile.tempFilePath)
+   } catch (error) {
 
       res.status(400).json({
          err: error.message
       })
 
+   } finally {
+      if (imgFile) await fs.unlink(imgFile.tempFilePath)
    }
 }
 
@@ -85,10 +97,12 @@ const trailerDelete = async (req = request, res = response) => {
    const { img } = await Movie.findById(id)
    const { public_id } = img
 
-   await imgDelete(public_id)
+   if (public_id) await imgDelete(public_id)
+   await Movie.findByIdAndDelete(id)
 
-   const trailer = await Movie.findByIdAndDelete(id)
-   res.json(trailer)
+   res.json({
+      msg: "Trailer removed"
+   })
 }
 
 
