@@ -14,10 +14,10 @@ class Server {
       this.port = process.env.PORT || 3000
 
       this.paths = {
-         auth:    '/api/auth',
-         user:    '/api/user',
-         movie:   '/api/trailer',
-         search:  '/api/search',
+         auth:    '/auth',
+         user:    '/user',
+         movie:   '/trailer',
+         search:  '/search',
 
       }
 
@@ -47,7 +47,7 @@ class Server {
       //Carga de archivo
       this.app.use(fileupload({
          useTempFiles: true,
-         tempFileDir: './uploads'
+         tempFileDir: './tmp'
       }))
 
       //Public Directory

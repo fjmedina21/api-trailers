@@ -15,7 +15,7 @@ const usersGet = async (req, res = response) => {
 
    const [totalUsers, users] = await Promise.all([
       User.countDocuments(query),
-      User.find(query)
+      User.find(query).sort({createdAt : -1})
          .skip(Number(from))
          .limit(Number(limit))
    ])
@@ -69,7 +69,7 @@ const userPut = async (req, res = response) => {
    try {
       const { state, img } = await User.findById(id)
 
-      if (!state) {
+      if (!state || req.body.state) {
 
          res.status(406).json({
             msg: "action not allowed"
@@ -108,7 +108,12 @@ const userDelete = async (req = request, res = response) => {
    const { img } = await User.findById(id)
    const { public_id } = img
 
-   if (public_id) await imgDelete(public_id)
+   if (public_id) await imgDelete(img)
+
+   //Case 1: property state set false, doing the record no longer accesible but it's keep in MongoDB
+   //await User.findByIdAndUpdate(id, {state:false, img:{}})
+
+   //case 2: document deleted permanently from MongoDB
    await User.findByIdAndDelete(id)
 
    res.json({

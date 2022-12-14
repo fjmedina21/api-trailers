@@ -27,11 +27,15 @@ const userSchema = Schema({
    state: {
       type: Boolean,
       default: true
+   },
+   createdAt: {
+      type: Date,
+      default: Date.now
    }
 })
 
 userSchema.methods.toJSON = function () {
-   const { __v, pass, _id, ...user } = this.toObject()
+   const { __v, pass, _id,  state, ...user } = this.toObject()
    user.uid = _id
    return user
 }

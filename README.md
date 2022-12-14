@@ -1,5 +1,5 @@
-# App-Pelicula
-Aplicativo web para trailers de películas
+# Api-Trailer // Final Project Prog. Web
+Movies' trailer management backend app
 
-# Instalar todas las dependencias del proyecto
+# How to install project
 **run npm install**
