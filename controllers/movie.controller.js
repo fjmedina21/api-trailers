@@ -28,7 +28,9 @@ const trailersGet = async (req, res = response) => {
 const trailerGetById = async (req, res = response) => {
    const { id } = req.params
    const trailer = await Movie.findById(id)
-   res.json(trailer)
+   res.json({
+      trailer
+   })
 }
 
 const trailerPost = async (req, res = response) => {
@@ -42,7 +44,9 @@ const trailerPost = async (req, res = response) => {
       const trailer = new Movie(schema)
       await trailer.save()
 
-      res.json(trailer)
+      res.json({
+         created: trailer
+      })
 
    } catch (error) {
 
@@ -73,6 +77,9 @@ const trailerPut = async (req, res = response) => {
       } else if (state) {
 
          if (imgFile) await imgUpdate(imgFile, img, schema)
+         
+         const {public_id, imgURL} = img
+         if (!imgFile) schema.img = {public_id, imgURL}
 
          const trailer = await Movie.findByIdAndUpdate(id, schema, {new:true})
 
