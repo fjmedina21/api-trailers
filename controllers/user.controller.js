@@ -29,7 +29,9 @@ const usersGet = async (req, res = response) => {
 const userGetById = async (req, res = response) => {
    const { id } = req.params
    const user = await User.findById(id)
-   res.json({user})
+   res.json({
+      user
+   })
 }
 
 const userPost = async (req, res = response) => {
@@ -47,7 +49,9 @@ const userPost = async (req, res = response) => {
       const user = new User(schema)
       await user.save()
 
-      res.json(user)
+      res.json({
+         created:user
+      })
 
    } catch (error) {
 
@@ -83,7 +87,10 @@ const userPut = async (req, res = response) => {
          }
 
          if (imgFile) await imgUpdate(imgFile, img, schema)
-
+         
+         const {public_id, imgURL} = img
+         if (!imgFile) schema.img = {public_id, imgURL}
+        
          const user = await User.findByIdAndUpdate(id, schema, { new: true })
 
          res.json({
