@@ -15,13 +15,13 @@ const imgUpload = async (imgFile, schema) => {
 
 }
 
-const imgDelete = async(public_id) => {
+const imgDelete = async (public_id) => {
 
    await cloudinary.uploader.destroy(public_id)
 
 }
 
-const imgUpdate = async (imgFile, img, schema ) => {
+const imgUpdate = async (imgFile, img, schema) => {
 
    const dbPublicId = img.public_id
 

@@ -1,4 +1,4 @@
-const { request,response } = require('express')
+const { request, response } = require('express')
 const bcryptjs = require('bcryptjs')
 const fs = require('fs-extra')
 
@@ -15,7 +15,7 @@ const usersGet = async (req, res = response) => {
 
    const [totalUsers, users] = await Promise.all([
       User.countDocuments(query),
-      User.find(query).sort({createdAt : -1})
+      User.find(query).sort({ createdAt: -1 })
          .skip(Number(from))
          .limit(Number(limit))
    ])
@@ -35,7 +35,7 @@ const userGetById = async (req, res = response) => {
 }
 
 const userPost = async (req, res = response) => {
-   const {pass, ...schema} = req.body
+   const { pass, ...schema } = req.body
    const imgFile = req.files?.img
 
    try {
@@ -50,13 +50,13 @@ const userPost = async (req, res = response) => {
       await user.save()
 
       res.json({
-         created:user
+         created: user
       })
 
    } catch (error) {
 
       res.status(400).json({
-         err:error.message
+         err: error.message
       })
 
    } finally {
@@ -87,10 +87,14 @@ const userPut = async (req, res = response) => {
          }
 
          if (imgFile) await imgUpdate(imgFile, img, schema)
+
+         const { public_id, imgURL } = img
          
-         const {public_id, imgURL} = img
-         if (!imgFile) schema.img = {public_id, imgURL}
-        
+         if (!imgFile) schema.img = {
+            public_id,
+            imgURL
+         }
+
          const user = await User.findByIdAndUpdate(id, schema, { new: true })
 
          res.json({
@@ -104,7 +108,7 @@ const userPut = async (req, res = response) => {
          err: error.message
       })
 
-   } finally{
+   } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
    }
 

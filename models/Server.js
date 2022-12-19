@@ -14,10 +14,10 @@ class Server {
       this.port = process.env.PORT || 3000
 
       this.paths = {
-         auth:    '/auth',
-         user:    '/user',
-         movie:   '/trailer',
-         search:  '/search',
+         auth: '/auth',
+         user: '/user',
+         movie: '/trailer',
+         search: '/search',
 
       }
 

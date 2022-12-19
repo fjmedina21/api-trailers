@@ -54,7 +54,7 @@ const trailerPost = async (req, res = response) => {
          err: error.message
       })
 
-   } finally{
+   } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
    }
 
@@ -77,11 +77,15 @@ const trailerPut = async (req, res = response) => {
       } else if (state) {
 
          if (imgFile) await imgUpdate(imgFile, img, schema)
-         
-         const {public_id, imgURL} = img
-         if (!imgFile) schema.img = {public_id, imgURL}
 
-         const trailer = await Movie.findByIdAndUpdate(id, schema, {new:true})
+         const { public_id, imgURL } = img
+
+         if (!imgFile) schema.img = {
+            public_id,
+            imgURL
+         }
+
+         const trailer = await Movie.findByIdAndUpdate(id, schema, { new: true })
 
          res.json({
             upadted: trailer
