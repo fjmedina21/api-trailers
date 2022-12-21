@@ -8,15 +8,15 @@ const imgUpload = async (imgFile, schema) => {
    const validExtensions = ["jpg","jpeg","webp","png","svg","gif"]
 
    try{
-      const words = imgFile.title.split('.');
+      const imgNameArr = imgFile.name.split('.');
       const ext = words[1]
 
        if (!validExt.includes(ext)) throw 'invalid file'
 
       console.log(ext);
 
-   } catch(err) {
-      console.log(err);
+   } catch(error) {
+      console.log(error);
    }
    */
    
