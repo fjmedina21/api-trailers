@@ -4,6 +4,22 @@ cloudinary.config(process.env.CLOUDINARY_URL)
 
 const imgUpload = async (imgFile, schema) => {
 
+   /*
+   const validExtensions = ["jpg","jpeg","webp","png","svg","gif"]
+
+   try{
+      const words = imgFile.title.split('.');
+      const ext = words[1]
+
+       if (!validExt.includes(ext)) throw 'invalid file'
+
+      console.log(ext);
+
+   } catch(err) {
+      console.log(err);
+   }
+   */
+   
    const { tempFilePath } = imgFile
 
    const { public_id, secure_url } = await cloudinary.uploader.upload(tempFilePath, { folder: 'app-pelicula' })
