@@ -39,7 +39,7 @@ const trailerPost = async (req, res = response) => {
 
    try {
 
-      if (imgFile) await imgUpload(imgFile, schema)
+      if (imgFile) await imgUpload(imgFile, schema, res)
 
       const trailer = new Movie(schema)
       await trailer.save()
@@ -76,7 +76,7 @@ const trailerPut = async (req, res = response) => {
 
       } else if (state) {
 
-         if (imgFile) await imgUpdate(imgFile, img, schema)
+         if (imgFile) await imgUpdate(imgFile, img, schema, res)
 
          const { public_id, imgURL } = img
 

@@ -40,7 +40,7 @@ const userPost = async (req, res = response) => {
 
    try {
 
-      if (imgFile) await imgUpload(imgFile, schema)
+      if (imgFile) await imgUpload(imgFile, schema, res)
 
       //Encriptar la contraseña
       const salt = bcryptjs.genSaltSync()
@@ -86,10 +86,10 @@ const userPut = async (req, res = response) => {
             schema.pass = bcryptjs.hashSync(pass, salt)
          }
 
-         if (imgFile) await imgUpdate(imgFile, img, schema)
+         if (imgFile) await imgUpdate(imgFile, img, schema, res)
 
          const { public_id, imgURL } = img
-         
+
          if (!imgFile) schema.img = {
             public_id,
             imgURL

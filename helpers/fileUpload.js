@@ -1,32 +1,33 @@
+const { response } = require('express')
+
 const cloudinary = require('cloudinary').v2
 
 cloudinary.config(process.env.CLOUDINARY_URL)
 
-const imgUpload = async (imgFile, schema) => {
+const imgUpload = async (imgFile, schema, res = response ) => {
 
-   /*
-   const validExtensions = ["jpg","jpeg","webp","png","svg","gif"]
+   const validExtensions = ["jpg","jpeg","webp","png","svg"]
+
 
    try{
       const imgNameArr = imgFile.name.split('.');
-      const ext = words[1]
+      const ext = imgNameArr[1]
 
-       if (!validExt.includes(ext)) throw 'invalid file'
+      if (!validExtensions.includes(ext)) throw { msg: "Invalid file type" }
 
-      console.log(ext);
+      const { tempFilePath } = imgFile
+
+      const { public_id, secure_url } = await cloudinary.uploader.upload(tempFilePath, { folder: 'app-pelicula' })
+
+      schema.img = {
+         public_id,
+         imgURL: secure_url
+      }
 
    } catch(error) {
-      console.log(error);
-   }
-   */
-   
-   const { tempFilePath } = imgFile
-
-   const { public_id, secure_url } = await cloudinary.uploader.upload(tempFilePath, { folder: 'app-pelicula' })
-
-   schema.img = {
-      public_id,
-      imgURL: secure_url
+      res.status(400).json({
+         error
+      })
    }
 
 }
@@ -37,7 +38,7 @@ const imgDelete = async (public_id) => {
 
 }
 
-const imgUpdate = async (imgFile, img, schema) => {
+const imgUpdate = async (imgFile, img, schema, res) => {
 
    const dbPublicId = img.public_id
 
@@ -45,7 +46,7 @@ const imgUpdate = async (imgFile, img, schema) => {
       await imgDelete(dbPublicId)
    }
 
-   await imgUpload(imgFile, schema)
+   await imgUpload(imgFile, schema, res)
 
 }
 
