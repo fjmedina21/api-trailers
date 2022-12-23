@@ -40,7 +40,10 @@ const userPost = async (req, res = response) => {
 
    try {
 
-      if (imgFile) await imgUpload(imgFile, schema, res)
+      if (imgFile) {
+         const result = await imgUpload(imgFile, schema)
+         if (result) throw result
+      }
 
       //Encriptar la contraseña
       const salt = bcryptjs.genSaltSync()
@@ -55,9 +58,7 @@ const userPost = async (req, res = response) => {
 
    } catch (error) {
 
-      res.status(400).json({
-         err: error.message
-      })
+      res.status(400).json(error)
 
    } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
@@ -86,7 +87,10 @@ const userPut = async (req, res = response) => {
             schema.pass = bcryptjs.hashSync(pass, salt)
          }
 
-         if (imgFile) await imgUpdate(imgFile, img, schema, res)
+         if (imgFile) {
+            const result = await imgUpdate(imgFile, img, schema)
+            if (result) throw result
+         }
 
          const { public_id, imgURL } = img
 
@@ -104,9 +108,7 @@ const userPut = async (req, res = response) => {
 
    } catch (error) {
 
-      res.status(400).json({
-         err: error.message
-      })
+      res.status(400).json(error)
 
    } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
@@ -119,7 +121,7 @@ const userDelete = async (req = request, res = response) => {
    const { img } = await User.findById(id)
    const { public_id } = img
 
-   if (public_id) await imgDelete(img)
+   if (public_id) await imgDelete(public_id)
 
    //Case 1: property state set false, doing the record no longer accesible but it's keep in MongoDB
    //await User.findByIdAndUpdate(id, {state:false, img:{}})

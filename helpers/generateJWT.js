@@ -12,9 +12,7 @@ const generateJWT = (uid = '', role = '') => {
       jwt.sign(payload, process.env.JWTPRIVATEKEY, { expiresIn: '8h' }, (err, token) => {
 
          if (err) {
-
             reject(err)
-
          } else {
             resolve(token)
          }

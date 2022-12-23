@@ -39,7 +39,10 @@ const trailerPost = async (req, res = response) => {
 
    try {
 
-      if (imgFile) await imgUpload(imgFile, schema, res)
+      if (imgFile) {
+         const result = await imgUpload(imgFile, schema)
+         if (result) throw result
+      }
 
       const trailer = new Movie(schema)
       await trailer.save()
@@ -50,9 +53,7 @@ const trailerPost = async (req, res = response) => {
 
    } catch (error) {
 
-      res.status(400).json({
-         err: error.message
-      })
+      res.status(400).json(error)
 
    } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
@@ -76,7 +77,10 @@ const trailerPut = async (req, res = response) => {
 
       } else if (state) {
 
-         if (imgFile) await imgUpdate(imgFile, img, schema, res)
+         if (imgFile) {
+            const result = await imgUpdate(imgFile, img, schema)
+            if (result) throw result
+         }
 
          const { public_id, imgURL } = img
 
@@ -94,9 +98,7 @@ const trailerPut = async (req, res = response) => {
 
    } catch (error) {
 
-      res.status(400).json({
-         err: error.message
-      })
+      res.status(400).json(error)
 
    } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
