@@ -1,7 +1,7 @@
 {
-	"name": "api-trailers",
+	"name": "api-movies",
 	"version": "1.0.0",
-	"description": "Api para cargar trailer de películas",
+	"description": "",
 	"main": "app.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",

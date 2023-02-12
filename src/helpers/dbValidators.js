@@ -34,13 +34,13 @@ const userExist = async (id) => {
 
 }
 
-const trailerExist = async (id) => {
+const movieExist = async (id) => {
 
    // Verificar si el id existe
-   const trailerExist = await Movie.findById(id)
+   const movieExist = await Movie.findById(id)
 
-   if (!trailerExist) {
-      throw new Error(`This trailer is not registered`)
+   if (!movieExist) {
+      throw new Error(`This movie is not registered`)
    }
 }
 
@@ -59,6 +59,6 @@ module.exports = {
    allowedCollections,
    emailExist,
    userExist,
-   trailerExist,
+   movieExist,
    validRole
 }

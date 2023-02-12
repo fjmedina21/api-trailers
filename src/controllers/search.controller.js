@@ -5,7 +5,7 @@ const { Movie } = require('../models')
 
 const collectionsAllowed = ['movies']
 
-const searchTrailers = async (term = '', res = response) => {
+const searchMovies = async (term = '', res = response) => {
 
    const isMongoID = ObjectId.isValid(term)
 
@@ -44,7 +44,7 @@ const search = (req, res = response) => {
 
    switch (collection) {
       case 'movies':
-         searchTrailers(term, res)
+         searchMovies(term, res)
          break
 
       default:

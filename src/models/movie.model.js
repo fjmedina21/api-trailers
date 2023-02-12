@@ -17,7 +17,7 @@ const movieSchema = Schema({
       public_id: String,
       imgURL: String
    },
-   trailer_link: {
+   movie_link: {
       type: String,
       required: true
    },
@@ -32,9 +32,9 @@ const movieSchema = Schema({
 })
 
 movieSchema.methods.toJSON = function () {
-   const { __v, pass, _id, ...trailer } = this.toObject()
-   trailer.uid = _id
-   return trailer
+   const { __v, pass, _id, ...movie } = this.toObject()
+   movie.uid = _id
+   return movie
 }
 
 module.exports = model('Movie', movieSchema)

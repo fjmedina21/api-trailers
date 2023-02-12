@@ -8,29 +8,29 @@ const {
 } = require('../middlewares')
 
 const {
-   trailerExist
+   movieExist
 } = require('../helpers')
 
 const {
-   trailersGet,
-   trailerGetById,
-   trailerPost,
-   trailerDelete,
-   trailerPatch
+   moviesGet,
+   movieGetById,
+   moviePost,
+   movieDelete,
+   moviePatch
 } = require('../controllers')
 
 const router = Router()
 const roles = ['ADMIN', 'SUPER']
 
 
-router.get('/', trailersGet)
+router.get('/', moviesGet)
 
 router.get('/:id',
    [
       check('id', 'Invalid id').isMongoId(),
-      check('id').custom(trailerExist),
+      check('id').custom(movieExist),
       validateFields
-   ], trailerGetById)
+   ], movieGetById)
 
 router.post('/',
    [
@@ -38,28 +38,27 @@ router.post('/',
       rolesAllowed(roles),
       check('title', 'Title required').not().isEmpty(),
       check('year', 'Year requiered').not().isEmpty(),
-      check('trailer_link', 'Trailer link requiered').not().isEmpty(),
+      check('movie_link', 'Movie link requiered').not().isEmpty(),
       validateFields,
-   ], trailerPost)
+   ], moviePost)
 
 router.patch('/:id',
    [
       validateJWT,
       rolesAllowed(roles),
       check('id', 'Invalid ID').isMongoId(),
-      check('id').custom(trailerExist),
+      check('id').custom(movieExist),
       validateFields,
-
-   ], trailerPatch)
+   ], moviePatch)
 
 router.delete('/:id',
    [
       validateJWT,
       rolesAllowed(roles),
       check('id', 'Invalid id').isMongoId(),
-      check('id').custom(trailerExist),
+      check('id').custom(movieExist),
       validateFields
-   ], trailerDelete)
+   ], movieDelete)
 
 
 

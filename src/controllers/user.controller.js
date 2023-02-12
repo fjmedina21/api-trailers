@@ -55,7 +55,7 @@ const userPost = async (req, res = response) => {
       await user.save()
 
       return res.json({
-         created: user
+         user
       })
 
    } catch (error) {
@@ -97,7 +97,7 @@ const userPatch = async (req, res = response) => {
          const user = await User.findByIdAndUpdate(id, schema, { new: true })
 
          return res.json({
-            updated: user
+            user
          })
       }
 

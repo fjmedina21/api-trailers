@@ -9,11 +9,11 @@ const {
    imgDelete
 } = require('../helpers')
 
-const trailersGet = async (req, res = response) => {
+const moviesGet = async (req, res = response) => {
    const { from = 0, limit = 25 } = req.query
    const query = { state: true }
 
-   const [totalTrailers, trailers] = await Promise.all([
+   const [totalMovies, movies] = await Promise.all([
       Movie.countDocuments(query),
       Movie.find(query).sort({ createdAt: -1 })
          .skip(Number(from))
@@ -21,21 +21,21 @@ const trailersGet = async (req, res = response) => {
    ])
 
    return res.json({
-      totalTrailers,
-      trailers
+      totalMovies,
+      movies
    })
 }
 
-const trailerGetById = async (req, res = response) => {
+const movieGetById = async (req, res = response) => {
    const { id } = req.params
-   const trailer = await Movie.findById(id)
+   const movie = await Movie.findById(id)
 
    return res.json({
-      trailer
+      movie
    })
 }
 
-const trailerPost = async (req, res = response) => {
+const moviePost = async (req, res = response) => {
    const schema = req.body
    const imgFile = req.files?.img
 
@@ -46,11 +46,11 @@ const trailerPost = async (req, res = response) => {
          if (result) throw result
       }
 
-      const trailer = new Movie(schema)
-      await trailer.save()
+      const movie = new Movie(schema)
+      await movie.save()
 
       return res.json({
-         created: trailer
+         movie
       })
 
    } catch (error) {
@@ -63,7 +63,7 @@ const trailerPost = async (req, res = response) => {
 
 }
 
-const trailerPatch = async (req, res = response) => {
+const moviePatch = async (req, res = response) => {
    const { id } = req.params
    const schema = req.body
    const imgFile = req.files?.img
@@ -84,10 +84,10 @@ const trailerPatch = async (req, res = response) => {
             if (result) throw result
          }
 
-         const trailer = await Movie.findByIdAndUpdate(id, schema, { new: true })
+         const movie = await Movie.findByIdAndUpdate(id, schema, { new: true })
 
          return res.json({
-            upadted: trailer
+            movie
          })
       }
 
@@ -100,7 +100,7 @@ const trailerPatch = async (req, res = response) => {
    }
 }
 
-const trailerDelete = async (req = request, res = response) => {
+const movieDelete = async (req = request, res = response) => {
    const { id } = req.params
    const { img } = await Movie.findById(id)
    const { public_id } = img
@@ -109,15 +109,15 @@ const trailerDelete = async (req = request, res = response) => {
    await Movie.findByIdAndDelete(id)
 
    return res.json({
-      msg: "Trailer removed"
+      msg: "Movie removed"
    })
 }
 
 
 module.exports = {
-   trailersGet,
-   trailerGetById,
-   trailerPost,
-   trailerPatch,
-   trailerDelete
+   moviesGet,
+   movieGetById,
+   moviePost,
+   moviePatch,
+   movieDelete
 }
