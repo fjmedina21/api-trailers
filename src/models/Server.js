@@ -1,4 +1,7 @@
+const path = require('path');
+
 const express = require('express')
+const helmet = require('helmet');
 const cors = require('cors')
 const fileupload = require('express-fileupload');
 
@@ -41,6 +44,8 @@ class Server {
       //CORS
       this.app.use(cors())
 
+      this.app.use(helmet())
+
       //Parseo y lectura del body
       this.app.use(express.json())
 
@@ -51,8 +56,7 @@ class Server {
       }))
 
       //Public Directory
-      this.app.use(express.static('public'))
-
+      this.app.use(express.static(path.join(__dirname,'../../Public')))
    }
 
    routes() {
