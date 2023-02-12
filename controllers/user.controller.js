@@ -3,6 +3,7 @@ const bcryptjs = require('bcryptjs')
 const fs = require('fs-extra')
 
 const { User } = require('../models')
+
 const {
    imgUpload,
    imgUpdate,
@@ -20,7 +21,7 @@ const usersGet = async (req, res = response) => {
          .limit(Number(limit))
    ])
 
-   res.json({
+   return res.json({
       totalUsers,
       users
    })
@@ -29,7 +30,8 @@ const usersGet = async (req, res = response) => {
 const userGetById = async (req, res = response) => {
    const { id } = req.params
    const user = await User.findById(id)
-   res.json({
+
+   return res.json({
       user
    })
 }
@@ -52,13 +54,13 @@ const userPost = async (req, res = response) => {
       const user = new User(schema)
       await user.save()
 
-      res.json({
+      return res.json({
          created: user
       })
 
    } catch (error) {
 
-      res.status(400).json(error)
+      return res.status(400).json(error)
 
    } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
@@ -66,7 +68,7 @@ const userPost = async (req, res = response) => {
 
 }
 
-const userPut = async (req, res = response) => {
+const userPatch = async (req, res = response) => {
    const { id } = req.params
    const { pass, ...schema } = req.body
    const imgFile = req.files?.img
@@ -76,7 +78,7 @@ const userPut = async (req, res = response) => {
 
       if (!state || req.body.state) {
 
-         res.status(406).json({
+         return res.status(406).json({
             msg: "action not allowed"
          })
 
@@ -92,23 +94,16 @@ const userPut = async (req, res = response) => {
             if (result) throw result
          }
 
-         const { public_id, imgURL } = img
-
-         if (!imgFile) schema.img = {
-            public_id,
-            imgURL
-         }
-
          const user = await User.findByIdAndUpdate(id, schema, { new: true })
 
-         res.json({
+         return res.json({
             updated: user
          })
       }
 
    } catch (error) {
 
-      res.status(400).json(error)
+      return res.status(400).json(error)
 
    } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
@@ -129,7 +124,7 @@ const userDelete = async (req = request, res = response) => {
    //case 2: document deleted permanently from MongoDB
    await User.findByIdAndDelete(id)
 
-   res.json({
+   return res.json({
       msg: "User removed"
    })
 }
@@ -139,6 +134,6 @@ module.exports = {
    usersGet,
    userGetById,
    userPost,
-   userPut,
+   userPatch,
    userDelete
 }

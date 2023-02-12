@@ -19,8 +19,8 @@ const {
    usersGet,
    userGetById,
    userPost,
-   userPut,
-   userDelete
+   userDelete,
+   userPatch
 } = require('../controllers')
 
 const router = Router()
@@ -46,13 +46,13 @@ router.post('/',
       validateFields
    ], userPost)
 
-router.put('/:id',
+router.patch('/:id',
    [
       validateJWT,
       check('id', 'Invalid ID').isMongoId(),
       check('id').custom(userExist),
       validateFields
-   ], userPut)
+   ], userPatch)
 
 router.delete('/:id',
    [
@@ -64,4 +64,5 @@ router.delete('/:id',
    ], userDelete)
 
 
+   
 module.exports = router

@@ -25,7 +25,7 @@ const searchTrailers = async (term = '', res = response) => {
       const movies = await Movie.find(filter)
       const total = await Movie.countDocuments(filter)
 
-      res.json({
+      return res.json({
          total,
          results: movies
       })
@@ -39,7 +39,7 @@ const search = (req, res = response) => {
 
    const msg = `This search haven't been implemented yet`
 
-   if (!collectionsAllowed.includes(collection)) res.status(400).json({ msg })
+   if (!collectionsAllowed.includes(collection)) return res.status(400).json({ msg })
 
 
    switch (collection) {
@@ -48,7 +48,7 @@ const search = (req, res = response) => {
          break
 
       default:
-         res.status(500).json({ msg })
+         return res.status(500).json({ msg })
    }
 
 }

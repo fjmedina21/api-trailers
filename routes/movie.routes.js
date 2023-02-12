@@ -15,8 +15,8 @@ const {
    trailersGet,
    trailerGetById,
    trailerPost,
-   trailerPut,
-   trailerDelete
+   trailerDelete,
+   trailerPatch
 } = require('../controllers')
 
 const router = Router()
@@ -42,7 +42,7 @@ router.post('/',
       validateFields,
    ], trailerPost)
 
-router.put('/:id',
+router.patch('/:id',
    [
       validateJWT,
       rolesAllowed(roles),
@@ -50,7 +50,7 @@ router.put('/:id',
       check('id').custom(trailerExist),
       validateFields,
 
-   ], trailerPut)
+   ], trailerPatch)
 
 router.delete('/:id',
    [
@@ -60,6 +60,7 @@ router.delete('/:id',
       check('id').custom(trailerExist),
       validateFields
    ], trailerDelete)
+
 
 
 module.exports = router

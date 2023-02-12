@@ -2,6 +2,7 @@ const { request, response } = require('express')
 const fs = require('fs-extra')
 
 const { Movie } = require('../models')
+
 const {
    imgUpload,
    imgUpdate,
@@ -19,7 +20,7 @@ const trailersGet = async (req, res = response) => {
          .limit(Number(limit))
    ])
 
-   res.json({
+   return res.json({
       totalTrailers,
       trailers
    })
@@ -28,7 +29,8 @@ const trailersGet = async (req, res = response) => {
 const trailerGetById = async (req, res = response) => {
    const { id } = req.params
    const trailer = await Movie.findById(id)
-   res.json({
+
+   return res.json({
       trailer
    })
 }
@@ -47,13 +49,13 @@ const trailerPost = async (req, res = response) => {
       const trailer = new Movie(schema)
       await trailer.save()
 
-      res.json({
+      return res.json({
          created: trailer
       })
 
    } catch (error) {
 
-      res.status(400).json(error)
+      return res.status(400).json(error)
 
    } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
@@ -61,7 +63,7 @@ const trailerPost = async (req, res = response) => {
 
 }
 
-const trailerPut = async (req, res = response) => {
+const trailerPatch = async (req, res = response) => {
    const { id } = req.params
    const schema = req.body
    const imgFile = req.files?.img
@@ -82,23 +84,16 @@ const trailerPut = async (req, res = response) => {
             if (result) throw result
          }
 
-         const { public_id, imgURL } = img
-
-         if (!imgFile) schema.img = {
-            public_id,
-            imgURL
-         }
-
          const trailer = await Movie.findByIdAndUpdate(id, schema, { new: true })
 
-         res.json({
+         return res.json({
             upadted: trailer
          })
       }
 
    } catch (error) {
 
-      res.status(400).json(error)
+      return res.status(400).json(error)
 
    } finally {
       if (imgFile) await fs.unlink(imgFile.tempFilePath)
@@ -113,7 +108,7 @@ const trailerDelete = async (req = request, res = response) => {
    if (public_id) await imgDelete(public_id)
    await Movie.findByIdAndDelete(id)
 
-   res.json({
+   return res.json({
       msg: "Trailer removed"
    })
 }
@@ -123,6 +118,6 @@ module.exports = {
    trailersGet,
    trailerGetById,
    trailerPost,
-   trailerPut,
+   trailerPatch,
    trailerDelete
 }

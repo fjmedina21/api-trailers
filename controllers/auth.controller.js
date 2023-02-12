@@ -36,14 +36,14 @@ const login = async (req = request, res = response) => {
       //generate JWT
       const token = await generateJWT(user.id, user.role)
 
-      res.json({
+      return res.json({
          user,
          token
       })
 
    } catch (error) {
 
-      res.status(500).json({
+      return res.status(500).json({
          err: error.message
       })
 
