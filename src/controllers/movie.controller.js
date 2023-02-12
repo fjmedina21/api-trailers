@@ -73,7 +73,7 @@ const trailerPatch = async (req, res = response) => {
 
       if (!state) {
 
-         res.status(406).json({
+         return res.status(406).json({
             err: "action not allowed"
          })
 
