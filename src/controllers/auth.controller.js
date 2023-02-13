@@ -14,14 +14,14 @@ const login = async (req = request, res = response) => {
       const user = await User.findOne({ email })
       if (!user) {
          return res.status(400).json({
-            msg: 'Not found - email'
+            msg: 'Verify your email address'
          })
       }
 
       //verify user.state
       if (!user.state) {
          return res.status(400).json({
-            msg: 'Not found - state'
+            msg: 'User not found'
          })
       }
 
@@ -36,7 +36,7 @@ const login = async (req = request, res = response) => {
       //generate JWT
       const token = await generateJWT(user.id, user.role)
 
-      return res.json({
+      return res.status(200).json({
          user,
          token
       })
