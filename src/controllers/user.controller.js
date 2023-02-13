@@ -21,7 +21,7 @@ const usersGet = async (req, res = response) => {
          .limit(Number(limit))
    ])
 
-   return res.json({
+   return res.status(200).json({
       totalUsers,
       users
    })
@@ -54,7 +54,7 @@ const userPost = async (req, res = response) => {
       const user = new User(schema)
       await user.save()
 
-      return res.json({
+      return res.status(201).json({
          user
       })
 
@@ -78,7 +78,7 @@ const userPatch = async (req, res = response) => {
 
       if (!state || req.body.state) {
 
-         return res.status(406).json({
+         return res.status(403).json({
             msg: "action not allowed"
          })
 
@@ -96,7 +96,7 @@ const userPatch = async (req, res = response) => {
 
          const user = await User.findByIdAndUpdate(id, schema, { new: true })
 
-         return res.json({
+         return res.status(201).json({
             user
          })
       }
@@ -124,7 +124,7 @@ const userDelete = async (req = request, res = response) => {
    //case 2: document deleted permanently from MongoDB
    await User.findByIdAndDelete(id)
 
-   return res.json({
+   return res.status(204)json({
       msg: "User removed"
    })
 }
