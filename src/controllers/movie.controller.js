@@ -20,7 +20,7 @@ const moviesGet = async (req, res = response) => {
          .limit(Number(limit))
    ])
 
-   return res.json({
+   return res.status(200).json({
       totalMovies,
       movies
    })
@@ -30,7 +30,7 @@ const movieGetById = async (req, res = response) => {
    const { id } = req.params
    const movie = await Movie.findById(id)
 
-   return res.json({
+   return res.status(200).json({
       movie
    })
 }
@@ -49,7 +49,7 @@ const moviePost = async (req, res = response) => {
       const movie = new Movie(schema)
       await movie.save()
 
-      return res.json({
+      return res.status(201).json({
          movie
       })
 
@@ -73,7 +73,7 @@ const moviePatch = async (req, res = response) => {
 
       if (!state) {
 
-         return res.status(406).json({
+         return res.status(403).json({
             err: "action not allowed"
          })
 
@@ -86,7 +86,7 @@ const moviePatch = async (req, res = response) => {
 
          const movie = await Movie.findByIdAndUpdate(id, schema, { new: true })
 
-         return res.json({
+         return res.status(201).json({
             movie
          })
       }
@@ -108,7 +108,7 @@ const movieDelete = async (req = request, res = response) => {
    if (public_id) await imgDelete(public_id)
    await Movie.findByIdAndDelete(id)
 
-   return res.json({
+   return res.status(204).json({
       msg: "Movie removed"
    })
 }
