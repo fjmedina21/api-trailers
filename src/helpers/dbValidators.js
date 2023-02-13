@@ -3,11 +3,11 @@ const { Role, User, Movie } = require('../models')
 
 const validRole = async (role = '') => {
 
-   // Verificar si el role existe
+   // Verificar si el rol existe
    const roleExist = await Role.findOne({ role })
 
    if (!roleExist) {
-      throw new Error(` This role:${role.toUpperCase()} don't exist`)
+      throw new Error(` This role:${role.toUpperCase()} doesn't exist`)
    }
 
 }
@@ -18,7 +18,7 @@ const emailExist = async (email = '') => {
    const emailExist = await User.findOne({ email })
 
    if (emailExist) {
-      throw new Error(`This email:${email} already exist`)
+      throw new Error(`This email:${email} is already taken`)
    }
 
 }
@@ -29,7 +29,7 @@ const userExist = async (id) => {
    const userExist = await User.findById(id)
 
    if (!userExist) {
-      throw new Error(`This user doesn't not exist`)
+      throw new Error(`This user doesn't exist`)
    }
 
 }
