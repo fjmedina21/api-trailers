@@ -3,11 +3,11 @@ const { Role, User, Movie } = require('../models')
 
 const validRole = async (role = '') => {
 
-   // Verificar si el role existe
+   // Verificar si el rol existe
    const roleExist = await Role.findOne({ role })
 
    if (!roleExist) {
-      throw new Error(` This role:${role.toUpperCase()} don't exist`)
+      throw new Error(` This role:${role.toUpperCase()} doesn't exist`)
    }
 
 }

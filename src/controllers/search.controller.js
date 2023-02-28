@@ -12,7 +12,7 @@ const searchMovies = async (term = '', res = response) => {
    if (isMongoID) {
       const movie = await Movie.findById(term)
 
-      return res.json({
+      return res.status(200).json({
          results: (movie)
             ? [movie]
             : []
@@ -25,7 +25,7 @@ const searchMovies = async (term = '', res = response) => {
       const movies = await Movie.find(filter)
       const total = await Movie.countDocuments(filter)
 
-      return res.json({
+      return res.status(200).json({
          total,
          results: movies
       })
@@ -48,7 +48,7 @@ const search = (req, res = response) => {
          break
 
       default:
-         return res.status(500).json({ msg })
+         return res.status(501).json({ msg })
    }
 
 }
