@@ -12,7 +12,7 @@ const {
 
 const {
    emailExist,
-   userExist
+   userIdExist
 } = require('../helpers')
 
 const {
@@ -31,7 +31,7 @@ router.get('/:id',
    [
       validateJWT,
       check('id', 'Invalid id').isMongoId(),
-      check('id').custom(userExist),
+      check('id').custom(userIdExist),
       validateFields
    ], userGetById)
 
@@ -50,7 +50,7 @@ router.patch('/:id',
    [
       validateJWT,
       check('id', 'Invalid ID').isMongoId(),
-      check('id').custom(userExist),
+      check('id').custom(userIdExist),
       validateFields
    ], userPatch)
 
@@ -59,10 +59,10 @@ router.delete('/:id',
       validateJWT,
       isSuper,
       check('id', 'Invalid id').isMongoId(),
-      check('id').custom(userExist),
+      check('id').custom(userIdExist),
       validateFields
    ], userDelete)
 
 
-   
+
 module.exports = router

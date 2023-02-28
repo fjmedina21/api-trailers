@@ -124,9 +124,7 @@ const userDelete = async (req = request, res = response) => {
    //case 2: document deleted permanently from MongoDB
    await User.findByIdAndDelete(id)
 
-   return res.json({
-      msg: "User removed"
-   })
+   return res.status(204)
 }
 
 

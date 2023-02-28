@@ -14,14 +14,14 @@ const login = async (req = request, res = response) => {
       const user = await User.findOne({ email })
       if (!user) {
          return res.status(400).json({
-            msg: 'Not found - email'
+            msg: "Invalid credentials."
          })
       }
 
       //verify user.state
       if (!user.state) {
          return res.status(400).json({
-            msg: 'Not found - state'
+            msg: "Sorry, we can't find an account with this email address. Please try again or create a new account."
          })
       }
 
@@ -29,7 +29,7 @@ const login = async (req = request, res = response) => {
       const password = bcryptjs.compareSync(pass, user.pass)
       if (!password) {
          return res.status(400).json({
-            msg: 'Incorret password'
+            msg: "Invalid credentials."
          })
       }
 
@@ -43,9 +43,7 @@ const login = async (req = request, res = response) => {
 
    } catch (error) {
 
-      return res.status(500).json({
-         err: error.message
-      })
+      return res.status(500).json(error)
 
    }
 

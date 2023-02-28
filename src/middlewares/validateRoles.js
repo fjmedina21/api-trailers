@@ -1,7 +1,7 @@
 const { request, response } = require('express')
 
 
-const isADMIN = (req, res = response, next) => {
+const isADMIN = (req, res, next) => {
 
    if (!req.user) {
       return res.status(500).json({
@@ -13,14 +13,14 @@ const isADMIN = (req, res = response, next) => {
 
    if (role !== 'ADMIN') {
       return res.status(500).json({
-         msg: `$This action is reserved for ADMIN users`
+         msg: `Action reserved for ADMIN users`
       })
    }
 
    next()
 }
 
-const isSuper = (req, res = response, next) => {
+const isSuper = (req, res, next) => {
 
    if (!req.user) {
       return res.status(500).json({
@@ -32,7 +32,7 @@ const isSuper = (req, res = response, next) => {
 
    if (role !== 'SUPER') {
       return res.status(500).json({
-         msg: `This action is reserved for SUPER users`
+         msg: `Action reserved for SUPER users`
       })
    }
 
@@ -41,7 +41,7 @@ const isSuper = (req, res = response, next) => {
 
 const rolesAllowed = (roles) => {
 
-   return (req, res = response, next) => {
+   return (req, res, next) => {
 
       if (!req.user) {
          return res.status(500).json({

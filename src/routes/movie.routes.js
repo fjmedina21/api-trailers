@@ -8,7 +8,8 @@ const {
 } = require('../middlewares')
 
 const {
-   movieExist
+   movieIdExist,
+   movieRegistered
 } = require('../helpers')
 
 const {
@@ -28,7 +29,7 @@ router.get('/', moviesGet)
 router.get('/:id',
    [
       check('id', 'Invalid id').isMongoId(),
-      check('id').custom(movieExist),
+      check('id').custom(movieIdExist),
       validateFields
    ], movieGetById)
 
@@ -39,6 +40,7 @@ router.post('/',
       check('title', 'Title required').not().isEmpty(),
       check('year', 'Year requiered').not().isEmpty(),
       check('movie_link', 'Movie link requiered').not().isEmpty(),
+      check('title').custom(movieRegistered),
       validateFields,
    ], moviePost)
 
@@ -47,7 +49,7 @@ router.patch('/:id',
       validateJWT,
       rolesAllowed(roles),
       check('id', 'Invalid ID').isMongoId(),
-      check('id').custom(movieExist),
+      check('id').custom(movieIdExist),
       validateFields,
    ], moviePatch)
 
@@ -56,7 +58,7 @@ router.delete('/:id',
       validateJWT,
       rolesAllowed(roles),
       check('id', 'Invalid id').isMongoId(),
-      check('id').custom(movieExist),
+      check('id').custom(movieIdExist),
       validateFields
    ], movieDelete)
 

@@ -18,29 +18,40 @@ const emailExist = async (email = '') => {
    const emailExist = await User.findOne({ email })
 
    if (emailExist) {
-      throw new Error(`This email:${email} already exist`)
+      throw new Error(`Someone already has this email address. Try another one.`)
    }
 
 }
 
-const userExist = async (id) => {
+const userIdExist = async (id) => {
 
    // Verificar si el id existe
    const userExist = await User.findById(id)
 
    if (!userExist) {
-      throw new Error(`This user doesn't not exist`)
+      throw new Error(`This user id doesn't exist`)
    }
 
 }
 
-const movieExist = async (id) => {
+const movieRegistered = async (title = '') => {
+
+   // Verificar si el correo existe
+   const movieRegistered = await Movie.findOne({ title })
+
+   if (movieRegistered) {
+      throw new Error(`This movie is already registered`)
+   }
+
+}
+
+const movieIdExist = async (id) => {
 
    // Verificar si el id existe
    const movieExist = await Movie.findById(id)
 
    if (!movieExist) {
-      throw new Error(`This movie is not registered`)
+      throw new Error(`This movie id is not registered`)
    }
 }
 
@@ -58,7 +69,8 @@ const allowedCollections = (collection = '', collections = []) => {
 module.exports = {
    allowedCollections,
    emailExist,
-   userExist,
-   movieExist,
+   userIdExist,
+   movieIdExist,
+   movieRegistered,
    validRole
 }

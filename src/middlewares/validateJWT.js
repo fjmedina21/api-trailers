@@ -10,7 +10,7 @@ const validateJWT = async (req = request, res = response, next) => {
 
    if (!token) {
       return res.status(401).json({
-         mgs: 'token required'
+         mgs: 'oken required'
       })
    }
 

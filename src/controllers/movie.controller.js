@@ -108,9 +108,7 @@ const movieDelete = async (req = request, res = response) => {
    if (public_id) await imgDelete(public_id)
    await Movie.findByIdAndDelete(id)
 
-   return res.json({
-      msg: "Movie removed"
-   })
+   return res.status(204)
 }
 
 

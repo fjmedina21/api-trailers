@@ -8,8 +8,8 @@ const router = Router()
 
 router.post('/login',
    [
-      check('email', 'email required').isEmail(),
-      check('pass', 'password required').not().isEmpty(),
+      check('email', 'Please enter a valid email.').isEmail(),
+      check('pass', 'Your password must contain at least 6 characters.').not().isEmpty(),
       validateFields
    ], login
 )
