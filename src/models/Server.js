@@ -56,7 +56,7 @@ class Server {
       }))
 
       //Public Directory
-      this.app.use(express.static(path.join(__dirname,'../../Public')))
+      this.app.use(express.static(path.join(__dirname,'../Public')))
    }
 
    routes() {
